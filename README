@@ -1,0 +1,4 @@
+Userspace utilities for the tagfs kernel module.
+
+Symlink tagfs.h to /usr/include so that it will be accessible to any programs you write. 
+You may also find it useful to add the tag_utils/bin folder to your PATH.
