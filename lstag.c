@@ -13,10 +13,11 @@ int main(int argc, char *argv[]) {
 		printf("Invalid number of arguments supplied to lstag.\nUsage is 'lstag [expr]'\n");
 		return -1;
 	}
-	if(argc == 2)
-		result = lstag(argv[2], buf, MAX_NUM_RESULTS, 0);
-	else
-		result = lstag(".", buf, MAX_NUM_RESULTS, 0);
+	if(argc == 2) {
+		result = lstag(argv[1], &buf, MAX_NUM_RESULTS, 0);
+	} else {
+		result = lstag(".", &buf, MAX_NUM_RESULTS, 0);
+	}
 	for(i = 0; i < result; i++) {
 		printf("ino: %lu\tfilename: %s\n", buf[i].ino, buf[i].filename);
 	}
@@ -25,6 +26,9 @@ int main(int argc, char *argv[]) {
 		switch(errno) {
 			case ENOSYS:
 				printf("Function has not been implemented. Did you insert the tagfs module?");
+				break;
+			case ENOENT:
+				printf("No files found!\n");
 				break;
 			default:
 				printf("Function failed with error #%d\n", errno);
