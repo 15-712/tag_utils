@@ -10,6 +10,7 @@
 #define GETCWT 345
 #define OPENTAG 346
 #define MVTAG 347
+#define DISTAG 348
 
 struct inode_entry {
 	unsigned long ino;
@@ -39,5 +40,7 @@ int getcwt(char *buf, unsigned long len) {
 int lstag(const char  *expr, void  *buf, unsigned long size, int offset) {
 	return syscall(LSTAG, expr, buf, size, offset);
 }
-
+int distag(const char  *filename, char  *buf, unsigned long size) {
+	return syscall(DISTAG, filename, buf, size);
+}
 #endif
