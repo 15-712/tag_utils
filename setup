@@ -1,0 +1,9 @@
+sudo umount /media/tagfs
+sudo rmmod tagfs.ko
+sudo insmod linux-2.6/fs/tagfs/tagfs.ko
+sudo mkfs -t ext2 /dev/sdb1
+sudo mount -t tagfs /dev/sdb1 /media/tagfs
+sudo chown tashields:tashields /media/tagfs
+echo "This is a test!" > /media/tagfs/testfile
+addtag /media/tagfs/testfile test
+chtag test
