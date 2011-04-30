@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
 		printf("Invalid number of arguments supplied to addtag.\nUsage is 'addtag filename tag'\n");
 		return -1;
 	}
-	if(argv[1][0] != '/') {
+	if(argv[1][0] != '/' && argv[1][0] != '.') {
 		result = getcwd(buf, 255);
 		if(result == -1)
 			printf("Cannot get current working directory. error #%d\n", errno);
