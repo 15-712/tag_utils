@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
 			count = lstag(".", &buf, MAX_NUM_RESULTS, count);
 		}
 
-		if(count == -1) 
+		if(count < 0) 
 			goto error;
 		
 		for(i = 0; i < count; i++) {
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]) {
 			do {
 				result = distag(buf[i].ino, tags, TAG_BUFFER_SIZE, 0);
 			} while(result == TAG_BUFFER_SIZE); 
-			if(result == -1)
+			if(result < 0)
 				goto error;
 			printf("(%lu) %s\t[", buf[i].ino, buf[i].filename);
 			for(j = 0; j < result-1; j++) 

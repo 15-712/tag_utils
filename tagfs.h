@@ -26,8 +26,8 @@ int addtag(const char *filename, const char **tag, unsigned int size) {
 	return syscall(ADDTAG, filename, tag, size);
 }
 
-int rmtag(const char *filename, const char *tag) {
-	return syscall(RMTAG, filename, tag);
+int rmtag(const char *filename, const char **tag, unsigned int size) {
+	return syscall(RMTAG, filename, tag, size);
 }
 int chtag(const char *tagex) {
 	return syscall(CHTAG, tagex);
