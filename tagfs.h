@@ -21,8 +21,8 @@ struct inode_entry {
 int opentag(const char *filename, int flags) {
 	return syscall(OPENTAG, filename, flags);
 }
-int addtag(const char *filename, const char *tag) {
-	return syscall(ADDTAG, filename, tag);
+int addtag(const char *filename, const char **tag, unsigned int size) {
+	return syscall(ADDTAG, filename, tag, size);
 }
 
 int rmtag(const char *filename, const char *tag) {
