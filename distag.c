@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
 				printf("Function has not been implemented. Did you insert the tagfs module?");
 				break;
 			case ENOENT:
-				printf("No files found!\n");
+				printf("No tags found!\n");
 				break;
 			default:
 				printf("Function failed with error #%d\n", errno);

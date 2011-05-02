@@ -1,12 +1,9 @@
 sudo umount /media/tagfs
 sudo rmmod tagfs.ko
-sudo insmod linux-2.6/fs/tagfs/tagfs.ko
-sudo mkfs -t ext2 /dev/sdb1
-sudo mount -t tagfs /dev/sdb1 /media/tagfs
-sudo chown tashields:tashields /media/tagfs
+sudo insmod ~/linux-2.6/fs/tagfs/tagfs.ko
+sudo mkfs -t ext2 /dev/sdb
+sudo mount -t tagfs /dev/sdb /media/tagfs
+sudo chown ww2:ww2 /media/tagfs
 echo "This is a test!" > /media/tagfs/testfile
-echo "This is a test too!" > /media/tagfs/testfile2
-addtag /media/tagfs/testfile test
-addtag /media/tagfs/testfile2 test2
-addtag /media/tagfs/testfile2 test
-chtag test
+~/tag_utils/bin/addtag /media/tagfs/testfile test
+~/tag_utils/bin/chtag test
