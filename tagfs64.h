@@ -2,6 +2,7 @@
 #define _TAGFS
 
 #define MAX_FILENAME_LEN 255
+#define MAX_TAG_LEN 255
 
 #define ADDTAG 303
 #define RMTAG 304
@@ -40,7 +41,7 @@ int getcwt(char *buf, unsigned long len) {
 int lstag(const char  *expr, void  *buf, unsigned long size, int offset) {
 	return syscall(LSTAG, expr, buf, size, offset);
 }
-int distag(unsigned long ino, char  *buf, unsigned long size, unsigned long tag_offset) {
+int distag(unsigned long ino, char  **buf, unsigned long size, unsigned long tag_offset) {
 	return syscall(DISTAG, ino, buf, size, tag_offset);
 }
 

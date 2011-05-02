@@ -7,23 +7,38 @@
 #include <unistd.h>
 #include <tagfs.h>
 
-#define BUFFER_SIZE 255 
+#define BUFFER_SIZE 25 
 
 int main(int argc, char *argv[]) {
-	int result, i;
-	char buf[BUFFER_SIZE];
+	int result, i, j;
+	char **buf;
 	struct stat s;
+
 	if(argc != 2) {
 		printf("Invalid number of arguments supplied to distag.\nUsage is 'distag filename'\n");
 		return -1;
 	}
-	printf("Stating file: %s\n", argv[1]);
 	result = stat(argv[1], &s);
 	if(result == -1) {
 		printf("Cannot stat file. Error #%d\n", errno);
 		exit(0);
 	}
 
+	buf = malloc(sizeof(char*)*BUFFER_SIZE);
+	if(!buf) {
+		printf("Unable to allocate memory\n");
+		return 0;
+	}
+	for(i = 0; i < BUFFER_SIZE; i++) {
+		buf[i] = malloc(sizeof(char) * MAX_TAG_LEN);
+		if(!buf[i]) {
+			printf("Error allocating buffer\n");
+			for(j = 0; j < i; j++)
+				free(buf[j]);
+			return 0;
+		}
+			
+	}
 	result = distag(s.st_ino, buf, BUFFER_SIZE, 0);
 	
 	if(result == -1) {
@@ -39,6 +54,15 @@ int main(int argc, char *argv[]) {
 				break;
 		}
 	} else {
-		printf("Tags: %s\n", buf);
+		if(result > 0) {
+			printf("Tags: ");
+			for(i = 0; i < result; i++) {
+				printf("%s ", buf[i]);
+				free(buf[i]);
+			}
+			printf("\n");
+		} else {
+			printf("File has no tags.\n");
+		}
 	}
 }
