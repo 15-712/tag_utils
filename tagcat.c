@@ -27,4 +27,6 @@ int main(int argc, char *argv[]) {
 	while((n = read(f, line, 80)) > 0) {
 		write(1, line, n);
 	}
+	printf("\n");
+	close(f);
 }

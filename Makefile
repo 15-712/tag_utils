@@ -1,5 +1,5 @@
 CC = gcc
-OBJS = pwt chtag addtag rmtag mvtag lstag tagcat distag tagwrite
+OBJS = pwt chtag addtag rmtag mvtag lstag tagcat distag tagwrite ext2cat
 BIN_DIR = bin
 
 all:
@@ -30,6 +30,9 @@ distag: distag.c
 	$(CC) -o $(BIN_DIR)/$@ $^
 
 tagwrite: tagwrite.c 
+	$(CC) -o $(BIN_DIR)/$@ $^
+
+ext2cat: ext2cat.c 
 	$(CC) -o $(BIN_DIR)/$@ $^
 
 clean:

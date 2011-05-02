@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 	} else {
 		strncpy(buf, argv[1], 255);
 	}
-	printf("%s\n", buf);
+	//printf("%s\n", buf);
 	result = rmtag(buf, argv[2]);
 	if(result == -1)
 		printf("rmtag failed with error #%d\n", errno);
