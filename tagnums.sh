@@ -1,13 +1,7 @@
 #! /bin/sh
 
-if [ $# -eq 2 -a -d $1 -a -d "$1/tags_structure" -a -d "$1/tags" ]
+if [ $# -eq 2 -a -d $1 ]
 then
-x=0
-while [ $x -lt 10 ]
-do
-	mkdir "$1/tags_structure/$x"
-	x=`expr $x + 1`
-done
 x=0
 while [ $x -lt $2 ]
 do
@@ -19,10 +13,11 @@ do
 		d=`expr $y % 10`
 		if [ `expr index "$dir" $d` -eq 0 ]
 		then
-			dir="$dir/$d"
+			dir="$dir $d"
 		fi
 	done
-	touch "$1/tags/$dir/$x.txt"
+	touch "$1/$x.txt"
+	addtag "$1/$x.txt" $dir
 	x=`expr $x + 1`
 done
 else

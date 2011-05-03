@@ -22,11 +22,11 @@ struct inode_entry {
 int opentag(const char *filename, int flags) {
 	return syscall(OPENTAG, filename, flags);
 }
-int addtag(const char *filename, const char *tag) {
-	return syscall(ADDTAG, filename, tag);
+int addtag(const char *filename, const char **tag, unsigned int size) {
+	return syscall(ADDTAG, filename, tag, size);
 }
 
-int rmtag(const char *filename, const char *tag, unsigned int size) {
+int rmtag(const char *filename, const char **tag, unsigned int size) {
 	return syscall(RMTAG, filename, tag, size);
 }
 int chtag(const char *tagex) {
@@ -44,5 +44,4 @@ int lstag(const char  *expr, void  *buf, unsigned long size, int offset) {
 int distag(unsigned long ino, char  **buf, unsigned long size, unsigned long tag_offset) {
 	return syscall(DISTAG, ino, buf, size, tag_offset);
 }
-
 #endif
