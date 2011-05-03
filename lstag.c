@@ -8,7 +8,7 @@
 #define TAG_BUFFER_SIZE 20 
 
 int main(int argc, char *argv[]) {
-	int result, i, j, count = 0, iter;
+	int result, i, j, count = 0, iter, iter2;
 	struct inode_entry buf[MAX_NUM_RESULTS];
 	char **tags;
 	if(argc > 2) {
@@ -44,14 +44,16 @@ int main(int argc, char *argv[]) {
 		
 		for(i = 0; i < count; i++) {
 			result = 0;
-			do {
-				result = distag(buf[i].ino, tags, TAG_BUFFER_SIZE, 0);
-			} while(result == TAG_BUFFER_SIZE); 
-			if(result < 0)
-				goto error;
+			iter2 = 0;
 			printf("(%lu) %s\t[", buf[i].ino, buf[i].filename);
-			for(j = 0; j < result-1; j++) 
-				printf("%s ", tags[j]);
+			do {
+				result = distag(buf[i].ino, tags, TAG_BUFFER_SIZE, result*iter2);
+				iter2++;
+				if(result < 0)
+					goto error;
+				for(j = 0; j < result-1; j++) 
+					printf("%s ", tags[j]);
+			} while(result == TAG_BUFFER_SIZE); 
 			printf("%s]\n", tags[result-1]);
 			
 		}

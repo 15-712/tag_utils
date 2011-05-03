@@ -13,6 +13,7 @@ int main(int argc, char *argv[]) {
 	int result, i, j;
 	char **buf;
 	struct stat s;
+	int iter;
 
 	if(argc != 2) {
 		printf("Invalid number of arguments supplied to distag.\nUsage is 'distag filename'\n");
@@ -39,30 +40,41 @@ int main(int argc, char *argv[]) {
 		}
 			
 	}
-	result = distag(s.st_ino, buf, BUFFER_SIZE, 0);
-	
-	if(result == -1) {
-		switch(errno) {
-			case ENOSYS:
-				printf("Function has not been implemented. Did you insert the tagfs module?");
-				break;
-			case ENOENT:
-				printf("No tags found!\n");
-				break;
-			default:
-				printf("Function failed with error #%d\n", errno);
-				break;
-		}
-	} else {
+	iter = 0;
+	do {
+		result = distag(s.st_ino, buf, BUFFER_SIZE, result*iter);
+		
+		if(result == -1)
+			goto error;
+			
 		if(result > 0) {
-			printf("Tags: ");
-			for(i = 0; i < result; i++) {
+			if(iter == 0)
+				printf("Tags: ");
+			for(i = 0; i < result; i++) 
 				printf("%s ", buf[i]);
-				free(buf[i]);
-			}
-			printf("\n");
+			
 		} else {
-			printf("File has no tags.\n");
+			if(iter == 0)
+				printf("File has no tags.");
 		}
+		iter++;
+	} while(result == BUFFER_SIZE);
+	printf("\n");
+	for(i = 0; i < BUFFER_SIZE; i++) {
+		free(buf[i]);
+	}
+	free(buf);
+	return 0;
+error:
+	switch(errno) {
+		case ENOSYS:
+			printf("Function has not been implemented. Did you insert the tagfs module?");
+			break;
+		case ENOENT:
+			printf("No tags found!\n");
+			break;
+		default:
+			printf("Function failed with error #%d\n", errno);
+			break;
 	}
 }
