@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
 		printf("Invalid number of arguments supplied to addtag.\nUsage is 'addtag filename tag1 [tag2 tag3 ...]'\n");
 		return -1;
 	}
-	//printf("%s\n", buf);
+	//printf("addtag(%s, %s, %d)\n", argv[1], argv[2], argc-2);
 	result = addtag(argv[1], (const char **)&argv[2], argc-2);
 	if(result == -1) {
 		switch(errno) {

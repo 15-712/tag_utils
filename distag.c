@@ -10,20 +10,25 @@
 #define BUFFER_SIZE 25 
 
 int main(int argc, char *argv[]) {
-	int result, i, j;
+	int result, i, j, ino;
 	char **buf;
 	struct stat s;
 	int iter;
 
-	if(argc != 2) {
+	if(argc == 1) {
+		ino = 0;
+	} else if(argc > 2) {
 		printf("Invalid number of arguments supplied to distag.\nUsage is 'distag filename'\n");
 		return -1;
+	} else {
+		result = stat(argv[1], &s);
+		if(result == -1) {
+			printf("Cannot stat file. Error #%d\n", errno);
+			exit(0);
+		}
+		ino = s.st_ino;
 	}
-	result = stat(argv[1], &s);
-	if(result == -1) {
-		printf("Cannot stat file. Error #%d\n", errno);
-		exit(0);
-	}
+
 
 	buf = malloc(sizeof(char*)*BUFFER_SIZE);
 	if(!buf) {
@@ -42,7 +47,7 @@ int main(int argc, char *argv[]) {
 	}
 	iter = 0;
 	do {
-		result = distag(s.st_ino, buf, BUFFER_SIZE, result*iter);
+		result = distag(ino, buf, BUFFER_SIZE, result*iter);
 		
 		if(result == -1)
 			goto error;
